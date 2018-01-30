@@ -101,6 +101,13 @@ func (t *DestroyValueReferenceTransformer) Transform(g *Graph) error {
 				// don't reverse other values
 				continue
 			}
+
+			// this also includes both types above, but keep this until we
+			// decide if output wil be a Destroyer
+			if _, ok := target.(GraphNodeDestroyer); !ok {
+				continue
+			}
+
 			log.Printf("[TRACE] output dep: %s", dag.VertexName(target))
 
 			g.RemoveEdge(e)
